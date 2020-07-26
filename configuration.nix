@@ -111,6 +111,8 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.udev.packages = [ pkgs.yubikey-personalization pkgs.libu2f-host pkgs.rtl-sdr ];
+
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [22];
