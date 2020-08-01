@@ -113,6 +113,16 @@
   services.openssh.enable = true;
   services.udev.packages = [ pkgs.yubikey-personalization pkgs.libu2f-host pkgs.rtl-sdr ];
 
+  services.udev = {
+      path = [ pkgs.coreutils ];
+      extraRules = ''
+        SUBSYSTEM=="usb",ENV{DEVTYPE}=="usb_device",ATTRS{idVendor}=="1df7",ATTRS{idProduct}=="2500",MODE:="0666"
+        SUBSYSTEM=="usb",ENV{DEVTYPE}=="usb_device",ATTRS{idVendor}=="1df7",ATTRS{idProduct}=="3000",MODE:="0666"
+        SUBSYSTEM=="usb",ENV{DEVTYPE}=="usb_device",ATTRS{idVendor}=="1df7",ATTRS{idProduct}=="3010",MODE:="0666"
+        SUBSYSTEM=="usb",ENV{DEVTYPE}=="usb_device",ATTRS{idVendor}=="1df7",ATTRS{idProduct}=="3020",MODE:="0666"
+      '';
+  };
+
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [22];
@@ -150,12 +160,12 @@
   # services.xserver.libinput.enable = true;
 
   # Enable the KDE Desktop Environment.
-  #services.xserver.displayManager.sddm.enable = true;
-  #services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
   # Enable xfce
-  services.xserver.displayManager.defaultSession = "xfce";
-  services.xserver.desktopManager.xterm.enable = false;
-  services.xserver.desktopManager.xfce.enable = true;
+  #services.xserver.displayManager.defaultSession = "xfce";
+  #services.xserver.desktopManager.xterm.enable = false;
+  #services.xserver.desktopManager.xfce.enable = true;
   # Enable Pantheon
   #services.xserver.desktopManager.pantheon.enable = true;
 
@@ -178,7 +188,7 @@
   system.stateVersion = "20.03"; # Did you read the comment?
 
   system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
+  system.autoUpgrade.allowReboot = false;
 
   boot.kernel.sysctl =  { "vm.swappiness" = 1; };
   
