@@ -23,7 +23,11 @@
   boot.initrd.luks.devices.crypted.device = "/dev/sda1";
   fileSystems."/".device = "/dev/mapper/crypted";
 
+  boot.supportedFilesystems = [ "zfs" ];
+
   networking.hostName = "nixos"; # Define your hostname.
+
+  networking.hostId = "eb2ce2d1";
 
   networking.networkmanager.enable = true;
 
@@ -37,6 +41,8 @@
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  virtualisation.lxd.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -123,7 +129,6 @@
       '';
   };
 
-
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [22];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -172,7 +177,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.user = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "tty" "uucp" "dialout" "networkmanager" "audio" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "lxd" "wheel" "tty" "uucp" "dialout" "networkmanager" "audio" ]; # Enable ‘sudo’ for the user.
   };
 
   # Collect nix store garbage and optimise daily.
